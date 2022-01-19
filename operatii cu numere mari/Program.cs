@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace operatii_cu_numere_mari
 {
