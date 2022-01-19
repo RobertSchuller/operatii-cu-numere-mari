@@ -20,7 +20,7 @@ namespace operatii_cu_numere_mari
             string str = "";
 
             // am calculat lungimea celor doua string-uri 
-            int n1 = a.Length, n2 = b.Length;
+            int len1 = a.Length, len2 = b.Length;
 
             // am dat reverse la cele doua string-uri
             char[] ch = a.ToCharArray();
@@ -31,7 +31,7 @@ namespace operatii_cu_numere_mari
             b = new string(ch1);
 
             int carry = 0;
-            for (int i = 0; i < n1; i++)
+            for (int i = 0; i < len1; i++)
             {
                 // formula
 
@@ -44,7 +44,7 @@ namespace operatii_cu_numere_mari
             }
 
             // am adaugat cifrele ramase
-            for (int i = n1; i < n2; i++)
+            for (int i = len1; i < len2; i++)
             {
                 int sum = ((int)(b[i] - '0') + carry);
                 str += (char)(sum % 10 + '0');
@@ -63,7 +63,7 @@ namespace operatii_cu_numere_mari
             return str;
         }
 
-        static bool mic(string a, string b)
+        static bool Mic(string a, string b)
         {
             // ne asiguram ca 'a' nu este mai mic decat 'b' pentru a realiza apoi diferenta 'a-b'
             int n1 = a.Length, n2 = b.Length;
@@ -87,7 +87,7 @@ namespace operatii_cu_numere_mari
         static string Diferenta(string a, string b)
         {
             // verificam daca a>b
-            if (mic(a, b))
+            if (Mic(a, b))
             {
                 string t = a;
                 a = b;
@@ -98,14 +98,14 @@ namespace operatii_cu_numere_mari
             string str = "";
 
 
-            int n1 = a.Length, n2 = b.Length;
-            int diff = n1 - n2;
+            int len1 = a.Length, len2 = b.Length;
+            int diff = len1 - len2;
 
 
             int carry = 0;
 
 
-            for (int i = n2 - 1; i >= 0; i--)
+            for (int i = len2 - 1; i >= 0; i--)
             {
                 // formula diff
                 int sub = (((int)a[i + diff] - (int)'0')
@@ -122,7 +122,7 @@ namespace operatii_cu_numere_mari
             }
 
             // adaugam cifrele ramase din a[]
-            for (int i = n1 - n2 - 1; i >= 0; i--)
+            for (int i = len1 - len2 - 1; i >= 0; i--)
             {
                 if (a[i] == '0' && carry > 0)
                 {
@@ -209,13 +209,59 @@ namespace operatii_cu_numere_mari
             return s;
         }
 
-        public static void Main(string[] args)
+        //Impartire
+       /* static string Impartire(string a, string b)
+        {
+            string result = string.Empty;
+
+            int reminder = 0;
+            int len1 = a.Length;
+            int len2 = b.Length;
+            int currentInt = 0;
+            int dividing = int.Parse(a.Substring(currentInt, len2));
+
+            int intDivisor = int.Parse(b);
+            
+            while (currentInt < len1)
+            {
+                if (dividing == 0 || intDivisor == 0)  // daca a sau b sunt 0, rezultatul trebuie sa fie 0
+                {
+                    currentInt++;
+                    result += "0";
+                }
+                else
+                {
+                    
+                    if (dividing > 0) // daca a > 0 folosim formula de impartire
+                    {
+                        reminder = dividing % intDivisor;
+                        result += ((dividing - reminder) / intDivisor).ToString();
+                        len2 = 1;
+
+                        if (currentInt < len1 - 2)
+                            currentInt += 2;
+                        else
+                            currentInt++;
+
+                        if (currentInt != len1)
+                        {
+                            dividing = int.Parse(a.Substring(currentInt, len2));
+                           reminder *= 10;
+                            dividing += reminder;
+                        }
+                    }
+                }
+            }
+            return result;
+        }*/
+            public static void Main(string[] args)
         {
             int n;
             Console.WriteLine("Selectati operatia dorita:");
             Console.WriteLine("1.Adunare.");
             Console.WriteLine("2.Diferenta.");
             Console.WriteLine("3.Inmultire.");
+          //  Console.WriteLine("4.Impartire.");
             n = int.Parse(Console.ReadLine());
             if (n == 1)
             {
@@ -256,6 +302,18 @@ namespace operatii_cu_numere_mari
                 }
                 Console.WriteLine("Rezultatul inmultirii este: " + Inmultire(a, b));
             }
+
+         /*   if (n == 4)
+            {
+                string a = "483274983274987239847";
+                string b = "2742874623647823";
+                if (a[0] < b[0])
+                {
+                    Console.WriteLine("Impartirea nu se poate realiza.");
+                    return;
+                }
+                Console.WriteLine("Rezultatul impartirii este: " + Impartire(a, b));
+            }*/
         }
 
     }
