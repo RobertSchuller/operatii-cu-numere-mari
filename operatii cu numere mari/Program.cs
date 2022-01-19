@@ -95,7 +95,7 @@ namespace operatii_cu_numere_mari
             }
 
 
-            String str = "";
+            string str = "";
 
 
             int n1 = a.Length, n2 = b.Length;
@@ -140,13 +140,123 @@ namespace operatii_cu_numere_mari
             Array.Reverse(aa);
             return new string(aa);
         }
-        static void Main()
-        {
-            string a = "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-            string b = "2";
-            Console.WriteLine("Suma dintre cele doua numere este: " + Adunare(a, b));
-            Console.WriteLine("Diferenta dintre cele doua numere este: " + Diferenta(a, b));
-        }
-    }
 
-}
+        //Inmultire
+        static string Inmultire(string a, string b)
+        {
+            int len1 = a.Length;
+            int len2 = b.Length;
+            if (len1 == 0 || len2 == 0)
+                return "0";
+
+            // se va pastra numarul rezultat în vector in ordine inversa
+            
+            int[] result = new int[len1 + len2];
+
+            // mai jos am utilizat doi indici pentru a gasi pozitii în rezultat
+            int i_n1 = 0;
+            int i_n2 = 0;
+            int i;
+
+            
+            for (i = len1 - 1; i >= 0; i--)
+            {
+                int carry = 0;
+                int n1 = a[i] - '0';
+                i_n2 = 0;
+
+                          
+                for (int j = len2 - 1; j >= 0; j--)
+                {
+                    // se ia cifra curenta a celui de al doilea numar
+                    
+                    int n2 = b[j] - '0';
+
+                    //  inmultim cu cifra curenta a primului numar si adaugam rezultatul 
+                    //  la rezultatul stocat anterior
+                    int sum = n1 * n2 + result[i_n1 + i_n2] + carry;
+
+                    // folosim carry
+                    carry = sum / 10;
+
+                    //si stocam rezultatul 
+                    result[i_n1 + i_n2] = sum % 10;
+
+                    i_n2++;
+                }
+
+                // stocam carry
+                if (carry > 0)
+                    result[i_n1 + i_n2] += carry;
+                i_n1++;
+            }
+
+            // ignoram zerourile din partea dreapta 
+            i = result.Length - 1;
+            while (i >= 0 && result[i] == 0)
+                i--;
+
+            // daca rezultatul e 0 => unul din numere a fost 0 
+            if (i == -1)
+                return "0";
+
+            // se genereaza string-ul rezultat 
+            string s = "";
+
+            while (i >= 0)
+                s += (result[i--]);
+
+            return s;
+        }
+
+        public static void Main(string[] args)
+        {
+            int n;
+            Console.WriteLine("Selectati operatia dorita:");
+            Console.WriteLine("1.Adunare.");
+            Console.WriteLine("2.Diferenta.");
+            Console.WriteLine("3.Inmultire.");
+            n = int.Parse(Console.ReadLine());
+            if (n == 1)
+            {
+                string a = "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+                string b = "492189080917489013749827309532485098275890237509237508927589023780392740923740923789043939393832929";
+                Console.WriteLine("Suma dintre cele doua numere este: " + Adunare(a, b));
+            }
+            if (n == 2)
+            {
+                string a = "10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+                string b = "7732846376746732838238777777777777777777777777777777777723263726372188294786724768767386782683917";
+                Console.WriteLine("Diferenta dintre cele doua numere este: " + Diferenta(a, b));
+
+            }
+
+            if (n == 3)
+            {
+                string a = "73598248972394127856213894572938479283576289759823146578346589237492347023147013974013740127598126598721398507";
+                string b = "345972659823740923749823174091384";
+                
+                
+                //aici am determinat daca rezultatul este cu minus sau fara
+                if ((a[0] == '-' || b[0] == '-') && (a[0] != '-' || b[0] != '-'))
+                    Console.Write("-");
+
+                if (a[0] == '-' && b[0] != '-')
+                {
+                    a = a.Substring(1);
+                }
+                else if (a[0] != '-' && b[0] == '-')
+                {
+                    b = b.Substring(1);
+                }
+                else if (a[0] == '-' && b[0] == '-')
+                {
+                    a = a.Substring(1);
+                    b = b.Substring(1);
+                }
+                Console.WriteLine("Rezultatul inmultirii este: " + Inmultire(a, b));
+            }
+        }
+
+    }
+}   
